@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, jsonify
 
 # def create_app():
 #     #create and configure the app
@@ -12,4 +12,4 @@ app = Flask(__name__)
 #add simple route
 @app.route('/hello')
 def hello():
-    return 'Hello There'
+    return jsonify({'message': 'Hello,There!!!'})
