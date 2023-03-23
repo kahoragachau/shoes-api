@@ -26,7 +26,7 @@ class Shoe(db.Model):
     __tablename__="shoestable"
 
     # shoes table properties
-    shoe_id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
     shoes_type = Column(String)
     brand = Column(String)
     size = Column(Integer)
@@ -34,3 +34,13 @@ class Shoe(db.Model):
     prize = Column(Integer)
     isInStock = Column(Boolean)
 
+    # Serialize the data
+    def __init__(self, shoe_type, brand,size,color,prize,isInStock):
+        self.shoes_type = shoe_type
+        self.brand = brand
+        self.size = size
+        self.color = color
+        self.prize = prize
+        self.isInStock = isInStock
+
+    
