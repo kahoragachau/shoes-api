@@ -43,4 +43,29 @@ class Shoe(db.Model):
         self.prize = prize
         self.isInStock = isInStock
 
+    # Add and persist user data
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    # Persist updated user data
+    def update(self):
+        db.session.commit()
+        
+    # delete user data and update the database
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    
+    # Format data
+    def format(self):
+        return{
+            "id": self.id,
+            "shoes_type": self.shoes_type,
+            "brand": self.brand,
+            "size": self.size,
+            "color": self.color,
+            "prize": self.prize,
+            "isInStock": self.isInStock
+        }
     
