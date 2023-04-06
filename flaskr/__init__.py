@@ -1,4 +1,5 @@
 import os
+from models import setup_db, Shoe
 
 from flask import Flask, jsonify
 
