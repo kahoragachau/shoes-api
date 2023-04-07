@@ -7,7 +7,7 @@ from sqlalchemy.sql.schema import PrimaryKeyConstraint
 
 database_name = "shoesdb"
 # path to our database
-database_path = "postgresql://{}:{}@{}/{}".format("postgres","","localhost:5400",database_name)
+database_path = "postgresql://{}:{}@{}/{}".format("postgres","","localhost:5432",database_name)
 
 #initialize sqlachemy ORM
 db = SQLAlchemy()
