@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, abort
 from models import setup_db, Shoe
 from flask_cors import CORS, cross_origin
 
@@ -19,11 +19,25 @@ def create_app(test_config=None):
             "Access-Control-Allow-Headers", "GET, POST, PATCH, DELETE, OPTION"
         )
         return response
-    @app.route('/inside-app')
-    def insideapp():
+    @app.route('/shoes', methods=["GET"])
+    def get_shoes():
+        # query the database to fetch all shoes
+        shoes = Shoe.query.all()
+        # serialize the data by using json format
+        formatted_shoes = [shoe.format() for shoe in shoes]
         return jsonify({
-            "message": "We are inside the app"
+            "shoes": formatted_shoes
         })
+    # get a specific shoe
+    @app.route('/shoes/<int:shoe_id>', methods=["GET"])
+    def get_specific_shoe(shoe_id):
+        shoe = Shoe.query.filter(Shoe.id == shoe_id).one_or_none()
+        if shoe is None:
+            abort(404)
+        else:
+            return jsonify ({
+                "shoes": shoe.format()
+            })
 
     #add simple route
     @app.route('/hello')
