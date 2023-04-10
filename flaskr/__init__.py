@@ -28,6 +28,10 @@ def create_app(test_config=None):
         return jsonify({
             "shoes": formatted_shoes
         })
+    # Add shoes
+    @app.route('/shoes', method=["POST"])
+    def add_shoe():
+        shoes = Shoe.que
     # get a specific shoe
     @app.route('/shoes/<int:shoe_id>', methods=["GET"])
     def get_specific_shoe(shoe_id):
