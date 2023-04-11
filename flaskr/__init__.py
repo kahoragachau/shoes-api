@@ -77,7 +77,17 @@ def create_app(test_config=None):
             return jsonify ({
                 "shoes": shoe.format()
             })
+    # Delete A specific shoe
+    @app.route('/shoes/<int:shoe_id>', methods=["DELETE"])
+    def delete_a_shoe(shoe_id):
+        shoe = Shoe.query.filter(shoe_id == Shoe.id).one_or_none()
+        print(shoe)
+        shoe.delete()
 
+        return jsonify({
+            "success": True,
+            "shoes": {}
+        })
     #add simple route
     @app.route('/hello')
     def hello():
