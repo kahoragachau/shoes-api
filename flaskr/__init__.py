@@ -28,6 +28,7 @@ def create_app(test_config=None):
         return jsonify({
             "shoes": formatted_shoes
         })
+    
     # Add a shoes
     @app.route('/shoes', methods=["POST"])
     def add_shoe():
@@ -58,14 +59,6 @@ def create_app(test_config=None):
             "shoes": shoe.format()
         })
     
-        # return jsonify({
-        #     "shoes_type": shoes_type, 
-        #     "brand" :brand, 
-        #     "size": size, 
-        #     "color": color, 
-        #     "prize":prize, 
-        #     "is_in_stock":is_in_stock
-        #     })
 
     # get a specific shoe
     @app.route('/shoes/<int:shoe_id>', methods=["GET"])
@@ -77,6 +70,31 @@ def create_app(test_config=None):
             return jsonify ({
                 "shoes": shoe.format()
             })
+    
+    # Update a specific shoe
+    @app.route('/shoes/<int:shoe_id>', methods=["PATCH"])
+    def update_specific_shoe(shoe_id):
+        # get/stream data from database 
+        request_data = request.get_json()
+        
+        shoe = Shoe.query.filter(Shoe.id == shoe_id).one_or_none()
+        if shoe is None:
+            abort(404)
+        else:
+            shoe.shoes_type = request_data.get("shoes_type")
+            shoe.brand = request_data.get("brand")
+            shoe.size = request_data.get("size")
+            shoe.color = request_data.get("color")
+            shoe.prize = request_data.get("prize")
+            shoe.is_in_stock = request_data.get("is_in_stock")
+        print(shoe)
+        shoe.update()
+
+
+        return jsonify({
+            "shoes": shoe.format()
+        })
+    
     # Delete A specific shoe
     @app.route('/shoes/<int:shoe_id>', methods=["DELETE"])
     def delete_a_shoe(shoe_id):
