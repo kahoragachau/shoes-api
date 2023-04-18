@@ -5,9 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 from sqlalchemy.sql.schema import PrimaryKeyConstraint
 
-database_name = "shoesdb"
+database_name = "postgres"
 # path to our database
-database_path = "postgresql://{}:{}@{}/{}".format("postgres","","localhost:5432",database_name)
+database_path = "postgresql://{}:{}@{}/{}".format("postgres","password","localhost:5432",database_name)
 
 #initialize sqlachemy ORM
 db = SQLAlchemy()
@@ -32,16 +32,17 @@ class Shoe(db.Model):
     size = Column(Integer)
     color = Column(String)
     prize = Column(Integer)
-    isInStock = Column(Boolean)
+    is_in_stock = Column(Boolean)
 
     # Serialize the data
-    def __init__(self, shoe_type, brand,size,color,prize,isInStock):
+    def __init__(self, id, shoe_type, brand,size,color,prize,is_in_stock):
+        self.id = id
         self.shoes_type = shoe_type
         self.brand = brand
         self.size = size
         self.color = color
         self.prize = prize
-        self.isInStock = isInStock
+        self.is_in_stock = is_in_stock
 
     # Add and persist user data
     def insert(self):
@@ -66,6 +67,6 @@ class Shoe(db.Model):
             "size": self.size,
             "color": self.color,
             "prize": self.prize,
-            "isInStock": self.isInStock
+            "is_in_stock": self.is_in_stock
         }
     
