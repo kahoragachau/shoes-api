@@ -10,6 +10,20 @@ def create_app(test_config=None):
     # Setup CROSS ORIGIN
     CORS(app)
 
+    SHOES_PER_PAGE = 2
+    # Pagination
+    def shoes_pagination(request, shoes):
+        page = request.args.get("page", 1, type=int)
+        start = (page - 1) * SHOES_PER_PAGE
+        end = start + SHOES_PER_PAGE
+
+        shoes = [shoe.format() for shoe in shoes]
+        current_shoes = shoes[start:end]
+
+        return current_shoes
+
+
+
     @app.after_request
     def after_request(response):
         response.headers.add(
@@ -24,9 +38,10 @@ def create_app(test_config=None):
         # query the database to fetch all shoes
         shoes = Shoe.query.all()
         # serialize the data by using json format
-        formatted_shoes = [shoe.format() for shoe in shoes]
+        # formatted_shoes = [shoe.format() for shoe in shoes]
+        current_shoes = shoes_pagination(request, shoes)
         return jsonify({
-            "shoes": formatted_shoes
+            "shoes": current_shoes
         })
     
     # Add a shoes
